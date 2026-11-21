@@ -1,135 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Flamengo · história, títulos e ídolos</title>
-  <meta name="description" content="Site de torcedor sobre o Flamengo: história, títulos, ídolos, a temporada 2026 e um joguinho de pênaltis." />
-  <meta name="theme-color" content="#050506" />
-  <link rel="icon" href="assets/img/escudo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-</head>
-<body class="trancado">
-  <audio id="hino" src="assets/hino.mp3" loop preload="auto"></audio>
-  <div id="cursor" aria-hidden="true"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Flamengo · história, títulos e ídolos</title>
+    <meta
+      name="description"
+      content="Site de torcedor sobre o Flamengo: história, títulos, ídolos, a temporada 2026 e um joguinho de pênaltis."
+    />
+    <meta name="theme-color" content="#050506" />
+    <link rel="icon" href="assets/img/escudo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+    ></script>
+  </head>
+  <body class="trancado">
+    <audio id="hino" src="assets/hino.mp3" loop preload="auto"></audio>
+    <div id="cursor" aria-hidden="true"></div>
 
-  <div class="portao" id="portao" role="dialog" aria-labelledby="portao-t">
-    <img src="assets/img/escudo.png" alt="Escudo do Flamengo" class="portao-escudo" />
-    <h2 id="portao-t">Abriram os portões</h2>
-    <p>O site toca o hino do Flamengo. Dá pra entrar com som ou sem.</p>
-    <button id="entrar" class="btn">Entrar no Maracanã</button>
-    <button id="entrar-mudo" class="btn-link">Entrar sem som</button>
-    <p id="aviso" class="aviso" hidden>O site precisa de um servidor local para funcionar por completo. No VS Code: botão direito em index.html → Open with Live Server. Ou, na pasta do projeto, rode: python3 -m http.server 8000 e abra http://localhost:8000</p>
-  </div>
+    <div class="portao" id="portao" role="dialog" aria-labelledby="portao-t">
+      <img
+        src="assets/img/escudo.png"
+        alt="Escudo do Flamengo"
+        class="portao-escudo"
+      />
+      <h2 id="portao-t">Abriram os portões</h2>
+      <p>O site toca o hino do Flamengo. Dá pra entrar com som ou sem.</p>
+      <button id="entrar" class="btn">Entrar no Maracanã</button>
+      <button id="entrar-mudo" class="btn-link">Entrar sem som</button>
+      <p id="aviso" class="aviso" hidden>
+        O site precisa de um servidor local para funcionar por completo. No VS
+        Code: botão direito em index.html → Open with Live Server. Ou, na pasta
+        do projeto, rode: python3 -m http.server 8000 e abra
+        http://localhost:8000
+      </p>
+    </div>
 
-  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="topo">
-    <a class="marca" href="#topo"><img src="assets/img/escudo.png" alt="" />Flamengo</a>
-    <nav aria-label="Principal">
-      <a href="#agora">2026</a><a href="#historia">História</a><a href="#titulos">Títulos</a>
-      <a href="#por-ano">Por ano</a><a href="#idolos">Ídolos</a><a href="#jogo">Jogo</a>
-    </nav>
-    <button id="som" class="som" aria-pressed="true" aria-label="Hino: ligado">♪ Hino</button>
-    <div id="progresso" aria-hidden="true"></div>
-  </header>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topo">
+      <a class="marca" href="#topo"
+        ><img src="assets/img/escudo.png" alt="" />Flamengo</a
+      >
+      <nav aria-label="Principal">
+        <a href="#agora">2026</a><a href="#historia">História</a
+        ><a href="#titulos">Títulos</a> <a href="#por-ano">Por ano</a
+        ><a href="#idolos">Ídolos</a><a href="#jogo">Jogo</a>
+      </nav>
+      <button
+        id="som"
+        class="som"
+        aria-pressed="true"
+        aria-label="Hino: ligado"
+      >
+        ♪ Hino
+      </button>
+      <div id="progresso" aria-hidden="true"></div>
+    </header>
 
-  <main id="conteudo">
-    <section class="hero" id="topo" aria-labelledby="titulo-pagina">
-      <canvas id="cena" aria-hidden="true"></canvas>
-      <img class="hero-fallback" src="assets/img/escudo.png" alt="Escudo do Clube de Regatas do Flamengo" />
-      <div class="hero-txt">
-        <p class="pre">Clube de Regatas do</p>
-        <h1 id="titulo-pagina">Flamengo</h1>
-        <p class="sub">Eneacampeão brasileiro e tetracampeão da Libertadores.</p>
-        <p class="sub2">No remo desde 1895, no futebol desde 1911.</p>
-        <a href="#agora" class="role" aria-label="Rolar para a próxima seção"><span></span>Role</a>
-      </div>
-      <div class="hero-faixas" aria-hidden="true"><i></i><i></i><i></i></div>
-    </section>
+    <main id="conteudo">
+      <section class="hero" id="topo" aria-labelledby="titulo-pagina">
+        <canvas id="cena" aria-hidden="true"></canvas>
+        <img
+          class="hero-fallback"
+          src="assets/img/escudo.png"
+          alt="Escudo do Clube de Regatas do Flamengo"
+        />
+        <div class="hero-txt">
+          <p class="pre">Clube de Regatas do</p>
+          <h1 id="titulo-pagina">Flamengo</h1>
+          <p class="sub">
+            Eneacampeão brasileiro e tetracampeão da Libertadores.
+          </p>
+          <p class="sub2">No remo desde 1895, no futebol desde 1911.</p>
+          <a href="#agora" class="role" aria-label="Rolar para a próxima seção"
+            ><span></span>Role</a
+          >
+        </div>
+        <div class="hero-faixas" aria-hidden="true"><i></i><i></i><i></i></div>
+      </section>
 
-    <section class="sec escura" id="agora" aria-labelledby="h-agora">
-      <h2 id="h-agora">O Flamengo em 2026</h2>
-      <p class="lede" id="agora-lede"></p>
-      <div class="contagem" aria-live="off">
-        <p class="contagem-t">Palmeiras x Flamengo · sábado, 21/11, 16h30</p>
-        <div class="relogio" id="relogio"><div><b id="c-d">0</b>dias</div><div><b id="c-h">0</b>horas</div><div><b id="c-m">0</b>min</div><div><b id="c-s">0</b>seg</div></div>
-        <p id="contagem-msg" class="contagem-msg"></p>
-      </div>
-      <div id="agora-cards" class="agora"></div>
-      <p class="rodape-secao">Fontes: Lance!, CNN Brasil, Revista Oeste, conferidas em <span class="atualizado"></span>.</p>
-    </section>
+      <section class="sec escura" id="agora" aria-labelledby="h-agora">
+        <h2 id="h-agora">O Flamengo em 2026</h2>
+        <p class="lede" id="agora-lede"></p>
+        <div class="contagem" aria-live="off">
+          <p class="contagem-t">Palmeiras x Flamengo · sábado, 21/11, 16h30</p>
+          <div class="relogio" id="relogio">
+            <div><b id="c-d">0</b>dias</div>
+            <div><b id="c-h">0</b>horas</div>
+            <div><b id="c-m">0</b>min</div>
+            <div><b id="c-s">0</b>seg</div>
+          </div>
+          <p id="contagem-msg" class="contagem-msg"></p>
+        </div>
+        <div id="agora-cards" class="agora"></div>
+        <p class="rodape-secao">
+          Fontes: Lance!, CNN Brasil, Revista Oeste, conferidas em
+          <span class="atualizado"></span>.
+        </p>
+      </section>
 
-    <section class="sec clara" id="historia" aria-labelledby="h-historia">
-      <h2 id="h-historia">Uma história que começou na água</h2>
-      <p class="lede">O Flamengo nasceu como clube de remo e só ganhou o futebol 16 anos depois. De lá pra cá teve a era Zico, uma longa espera por títulos, a geração de 2019 e as temporadas mais vitoriosas da história.</p>
-      <div id="eras"></div>
-    </section>
+      <section class="sec clara" id="historia" aria-labelledby="h-historia">
+        <h2 id="h-historia">Uma história que começou na água</h2>
+        <p class="lede">
+          O Flamengo nasceu como clube de remo e só ganhou o futebol 16 anos
+          depois. De lá pra cá teve a era Zico, uma longa espera por títulos, a
+          geração de 2019 e as temporadas mais vitoriosas da história.
+        </p>
+        <div id="eras"></div>
+      </section>
 
-    <section class="sec escura brilho" id="titulos" aria-labelledby="h-titulos">
-      <h2 id="h-titulos">Os títulos, competição por competição</h2>
-      <p class="lede">Toque em uma competição para ver os anos de cada conquista.</p>
-      <div id="titulos-lista" class="tiles" role="group" aria-label="Competições"></div>
-      <div id="titulo-painel" class="painel" role="status" aria-live="polite"></div>
-    </section>
+      <section
+        class="sec escura brilho"
+        id="titulos"
+        aria-labelledby="h-titulos"
+      >
+        <h2 id="h-titulos">Os títulos, competição por competição</h2>
+        <p class="lede">
+          Toque em uma competição para ver os anos de cada conquista.
+        </p>
+        <div
+          id="titulos-lista"
+          class="tiles"
+          role="group"
+          aria-label="Competições"
+        ></div>
+        <div
+          id="titulo-painel"
+          class="painel"
+          role="status"
+          aria-live="polite"
+        ></div>
+      </section>
 
-    <section class="sec vermelha-sec" id="por-ano" aria-labelledby="h-ano">
-      <h2 id="h-ano">E em que ano?</h2>
-      <div class="busca">
-        <label for="ano">Arraste para escolher um ano</label>
-        <input id="ano" type="range" min="1940" max="2026" step="1" value="2019" />
-        <p class="ano-grande" id="ano-valor" aria-hidden="true">2019</p>
-        <div id="ano-saida" role="status" aria-live="polite"></div>
-      </div>
-    </section>
+      <section class="sec vermelha-sec" id="por-ano" aria-labelledby="h-ano">
+        <h2 id="h-ano">E em que ano?</h2>
+        <div class="busca">
+          <label for="ano">Arraste para escolher um ano</label>
+          <input
+            id="ano"
+            type="range"
+            min="1940"
+            max="2026"
+            step="1"
+            value="2019"
+          />
+          <p class="ano-grande" id="ano-valor" aria-hidden="true">2019</p>
+          <div id="ano-saida" role="status" aria-live="polite"></div>
+        </div>
+      </section>
 
-    <section class="sec escura holofote" id="idolos" aria-labelledby="h-idolos">
-      <div id="fundo-nome" class="fundo-nome" aria-hidden="true"></div>
-      <h2 id="h-idolos">Nove ídolos da Nação</h2>
-      <p class="lede">Arraste a foto, use as setas do teclado ou deslize com dois dedos no touchpad para trocar de ídolo.</p>
-      <div class="flow-wrap">
-        <ul id="idolos-lista" class="flow" tabindex="0" aria-label="Galeria de ídolos. Use as setas do teclado."></ul>
-      </div>
-      <div class="flow-ctl">
-        <button class="seta" id="ant" aria-label="Ídolo anterior">‹</button>
-        <div id="idolo-info" class="idolo-info" role="status" aria-live="polite"></div>
-        <button class="seta" id="prox" aria-label="Próximo ídolo">›</button>
-      </div>
-    </section>
+      <section
+        class="sec escura holofote"
+        id="idolos"
+        aria-labelledby="h-idolos"
+      >
+        <div id="fundo-nome" class="fundo-nome" aria-hidden="true"></div>
+        <h2 id="h-idolos">Nove ídolos da Nação</h2>
+        <p class="lede">
+          Arraste a foto, use as setas do teclado ou deslize com dois dedos no
+          touchpad para trocar de ídolo.
+        </p>
+        <div class="flow-wrap">
+          <ul
+            id="idolos-lista"
+            class="flow"
+            tabindex="0"
+            aria-label="Galeria de ídolos. Use as setas do teclado."
+          ></ul>
+        </div>
+        <div class="flow-ctl">
+          <button class="seta" id="ant" aria-label="Ídolo anterior">‹</button>
+          <div
+            id="idolo-info"
+            class="idolo-info"
+            role="status"
+            aria-live="polite"
+          ></div>
+          <button class="seta" id="prox" aria-label="Próximo ídolo">›</button>
+        </div>
+      </section>
 
-    <section class="sec campo-sec" id="jogo" aria-labelledby="h-jogo">
-      <h2 id="h-jogo">Cobre o pênalti</h2>
-      <p class="lede">São 5 cobranças. Clique no gol pra escolher o canto. Se chutar fora, a bola vai pra arquibancada.</p>
-      <div class="campo">
-        <canvas id="gol" width="720" height="420" aria-label="Jogo de pênaltis: clique no gol para chutar"></canvas>
-        <p id="placar" role="status" aria-live="polite">Cobrança 1 de 5. Clique no gol.</p>
-        <button id="de-novo" class="btn" hidden>Cobrar de novo</button>
-      </div>
-    </section>
-  </main>
+      <section class="sec campo-sec" id="jogo" aria-labelledby="h-jogo">
+        <h2 id="h-jogo">Cobre o pênalti</h2>
+        <p class="lede">
+          São 5 cobranças. Clique no gol pra escolher o canto. Se chutar fora, a
+          bola vai pra arquibancada.
+        </p>
+        <div class="campo">
+          <canvas
+            id="gol"
+            width="720"
+            height="420"
+            aria-label="Jogo de pênaltis: clique no gol para chutar"
+          ></canvas>
+          <p id="placar" role="status" aria-live="polite">
+            Cobrança 1 de 5. Clique no gol.
+          </p>
+          <button id="de-novo" class="btn" hidden>Cobrar de novo</button>
+        </div>
+      </section>
+    </main>
 
-  <footer class="rodape">
-    <img src="assets/img/escudo.png" alt="" />
-    <p>Projeto de torcedor, feito para estudo, sem ligação oficial com o clube. Marca, escudo, hino e fotos pertencem aos respectivos donos.</p>
-    <p>Dados conferidos em <span class="atualizado"></span>. A temporada 2026 pode ter mudado desde então.</p>
-  </footer>
+    <footer class="rodape">
+      <img src="assets/img/escudo.png" alt="" />
+      <p>
+        Projeto de torcedor, feito para estudo, sem ligação oficial com o clube.
+        Marca, escudo, hino e fotos pertencem aos respectivos donos.
+      </p>
+      <p>
+        Dados conferidos em <span class="atualizado"></span>. A temporada 2026
+        pode ter mudado desde então.
+      </p>
+    </footer>
 
-  <script>
-  /* se o módulo não carregar (ex.: abrir com duplo clique no arquivo), o botão de entrada ainda precisa funcionar */
-  (function () {
-    var p = document.getElementById("portao"), a = document.getElementById("hino");
-    function abrir(som) {
-      p.classList.add("some"); document.body.classList.remove("trancado");
-      if (som) { a.volume = 0.6; var r = a.play(); if (r && r.catch) r.catch(function () {}); }
-    }
-    document.getElementById("entrar").addEventListener("click", function () { abrir(true); });
-    document.getElementById("entrar-mudo").addEventListener("click", function () { abrir(false); });
-    setTimeout(function () { if (!window.__flaOk) { var v = document.getElementById("aviso"); if (v) v.hidden = false; } }, 1500);
-  })();
-</script>
-<script type="module" src="js/main.js"></script>
-</body>
+    <script>
+      /* se o módulo não carregar (ex.: abrir com duplo clique no arquivo), o botão de entrada ainda precisa funcionar */
+      (function () {
+        var p = document.getElementById("portao"),
+          a = document.getElementById("hino");
+        function abrir(som) {
+          p.classList.add("some");
+          document.body.classList.remove("trancado");
+          if (som) {
+            a.volume = 0.6;
+            var r = a.play();
+            if (r && r.catch) r.catch(function () {});
+          }
+        }
+        document
+          .getElementById("entrar")
+          .addEventListener("click", function () {
+            abrir(true);
+          });
+        document
+          .getElementById("entrar-mudo")
+          .addEventListener("click", function () {
+            abrir(false);
+          });
+        setTimeout(function () {
+          if (!window.__flaOk) {
+            var v = document.getElementById("aviso");
+            if (v) v.hidden = false;
+          }
+        }, 1500);
+      })();
+    </script>
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>
