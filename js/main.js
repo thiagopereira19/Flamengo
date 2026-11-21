@@ -297,7 +297,7 @@ lista.addEventListener("pointermove", (e) => {
     } catch {}
   }
   if (mexeu) {
-    arr.f = freio(dx / 230);
+    arr.f = freio(dx / 140);
     posicionar(arr.f);
   }
 });
@@ -307,7 +307,7 @@ function soltar() {
     foi = mexeu;
   arr = null;
   lista.classList.remove("arrastando");
-  if (foi) ir(at - Math.round(f));
+  if (foi) ir(at - (Math.abs(f) < 0.25 ? 0 : Math.round(f) || Math.sign(f)));
   setTimeout(() => (mexeu = false), 0);
 }
 lista.addEventListener("pointerup", soltar);
