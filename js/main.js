@@ -312,7 +312,9 @@ function soltar() {
 }
 lista.addEventListener("pointerup", soltar);
 lista.addEventListener("pointercancel", soltar);
-lista.addEventListener("lostpointercapture", soltar);
+lista.addEventListener("lostpointercapture", (e) => {
+  if (e.target === lista) soltar();
+});
 
 // touchpad: dois dedos pro lado troca de ídolo, a rolagem vertical segue normal
 let acc = 0,
